@@ -22,16 +22,56 @@
             <div class="quick-tasks-manager">
                 <div class="heading-and-add-task-btn">
                     <h2>Your tasks</h2>
-                    <button>Click me to add a task +</button>
+                    <button class="add-task-btn">Click me to add a task +</button>
                 </div>
                 <div class="list-of-quick-tasks">
-
+                    <!-- <div class="task">
+                        <div class="name-desc-date">
+                            <h2 class="task-name">Task</h2>
+                            <h3 class="task-desc">I am a task</h3>
+                            <h3 class="task-date">Due 20/12/2002</h3>
+                        </div>
+                        <div class="checkbox-priority-edit-delete">
+                            <div class="task-checkbox">
+                                <input type="checkbox" name="checkbox" id="checkbox">
+                                <label for="checkbox">Done</label>
+                            </div>
+                            <p class="task-priority">High Priority</p>
+                            <div class="edit-delete-btn">
+                                <button class="edit-task-btn">Edit</button>
+                                <button class="del-task-btn">Delete</button>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
 
             <!-- <div class="projects-manager">
 
             </div> -->
+
+            <!-- Form to create new task -->
+            <form class="create-task-form">
+                <label for="title">Title <br>
+                    <input type="text" name="title" id="title">
+                </label>
+                <label for="Description">Short Description (Max character length: 75)<br>
+                    <input type="text" name="description" id="description" maxlength="75">
+                </label>
+                <label for="date">Date <br>
+                    <input type="date" name="date" id="date">
+                </label>
+                <label for="priority">Priority <br>
+                    <select name="priority" id="priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </label>
+                <button type="button" class="task-submit-btn">Add Task</button>
+                <button type="button" class="go-back">Go back</button>
+            </form>
+
         </main>
     </div>
 
