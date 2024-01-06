@@ -1,124 +1,123 @@
-import { display } from "./display";
+import { display } from './display';
 
-const tasks = (function() {
-    function task(title, desc, date, priority) {
-        this.title = title;
-        this.desc = desc;
-        this.date = date;
-        this.priority = priority
-    }
+const tasks = (function () {
+  function task (title, desc, date, priority) {
+    this.title = title;
+    this.desc = desc;
+    this.date = date;
+    this.priority = priority;
+  }
 
-    function createElem(tag, name) {
-        const elem = document.createElement(tag)
-        elem.className = name;
-    
-        return elem
-    }
+  function createElem (tag, name) {
+    const elem = document.createElement(tag);
+    elem.className = name;
 
-    // Creating task div and it's various diff child elements.
-    function taskDivInDOM(title, desc, date, prority) {
-        // Main div to append the tasks to.
-        const listOfTasks = document.querySelector('.list-of-quick-tasks')
+    return elem;
+  }
 
-        // First main child (Task).
-        const task = createElem('div', 'task')
-        listOfTasks.append(task)
+  // Creating task div and it's various diff child elements.
+  function taskDivInDOM (title, desc, date, prority) {
+    // Main div to append the tasks to.
+    const listOfTasks = document.querySelector('.list-of-quick-tasks');
 
-        // Children of task.
-        const nameDescDate = createElem('div', 'name-desc-date')
-        const checkPriorEditDel = createElem('div', 'checkbox-priority-edit-delete')
+    // First main child (Task).
+    const task = createElem('div', 'task');
+    listOfTasks.append(task);
 
-        task.append(
-            nameDescDate,
-            checkPriorEditDel
-        )
+    // Children of task.
+    const nameDescDate = createElem('div', 'name-desc-date');
+    const checkPriorEditDel = createElem('div', 'checkbox-priority-edit-delete');
 
-        // Chidlren of nameDescDate
-        let taskName = createElem('h2', 'task-name')
-        let taskDesc = createElem('h3', 'task-desc')
-        let taskDate = createElem('h2', 'task-date')
+    task.append(
+      nameDescDate,
+      checkPriorEditDel
+    );
 
-        taskName.innerHTML = title
-        taskDesc.innerHTML = desc
-        taskDate.innerHTML = `Due ${date}`
+    // Chidlren of nameDescDate
+    const taskName = createElem('h2', 'task-name');
+    const taskDesc = createElem('h3', 'task-desc');
+    const taskDate = createElem('h2', 'task-date');
 
-        nameDescDate.append(
-            taskName,
-            taskDesc,
-            taskDate
-        )
+    taskName.innerHTML = title;
+    taskDesc.innerHTML = desc;
+    taskDate.innerHTML = `Due ${date}`;
 
-        // Children of checkPriorEditDel
-        const taskCheckbox = createElem('div', 'task-checkbox')
-        let taskPrior = createElem('p', 'task-priority')
-        taskPrior.innerHTML = `${prority} priority`
-        const taskEditDel = createElem('div', 'edit-delete-btn')
+    nameDescDate.append(
+      taskName,
+      taskDesc,
+      taskDate
+    );
 
-        checkPriorEditDel.append(
-            taskCheckbox,
-            taskPrior,
-            taskEditDel
-        )
+    // Children of checkPriorEditDel
+    const taskCheckbox = createElem('div', 'task-checkbox');
+    const taskPrior = createElem('p', 'task-priority');
+    taskPrior.innerHTML = `${prority} priority`;
+    const taskEditDel = createElem('div', 'edit-delete-btn');
 
-        // Children of taskCheckbox
-        const inputCheck = document.createElement('input')
-        inputCheck.id = 'checkbox'
-        const inputLabel = document.createElement('label')
-        inputLabel.setAttribute('for', 'checkbox')
-        inputLabel.innerHTML = ' Done '
+    checkPriorEditDel.append(
+      taskCheckbox,
+      taskPrior,
+      taskEditDel
+    );
 
-        taskCheckbox.append(
-            inputCheck,
-            inputLabel
-        )
+    // Children of taskCheckbox
+    const inputCheck = document.createElement('input');
+    inputCheck.id = 'checkbox';
+    const inputLabel = document.createElement('label');
+    inputLabel.setAttribute('for', 'checkbox');
+    inputLabel.innerHTML = ' Done ';
 
-        // Children of taskEditDel
-        const editBtn = createElem('button', 'edit-task-btn')
-        editBtn.innerHTML = 'Edit'
-        const delBtn = createElem('button', 'del-task-btn')
-        delBtn.innerHTML = 'Delete'
+    taskCheckbox.append(
+      inputCheck,
+      inputLabel
+    );
 
-        taskEditDel.append(
-            editBtn,
-            delBtn
-        )
-    }
+    // Children of taskEditDel
+    const editBtn = createElem('button', 'edit-task-btn');
+    editBtn.innerHTML = 'Edit';
+    const delBtn = createElem('button', 'del-task-btn');
+    delBtn.innerHTML = 'Delete';
 
-    function fillTaskInfo() {
-        //Task values from form. 
-        let taskTitle = document.getElementById('title').value;
-        let taskDesc = document.getElementById('description').value;
-        let taskDate = document.getElementById('date').value;
-        let taskPriority = document.getElementById('priority').value;
+    taskEditDel.append(
+      editBtn,
+      delBtn
+    );
+  }
 
-        let newTask = new task(
-            taskTitle,
-            taskDesc,
-            taskDate,
-            taskPriority
-        )
+  function fillTaskInfo () {
+    // Task values from form.
+    const taskTitle = document.getElementById('title').value;
+    const taskDesc = document.getElementById('description').value;
+    const taskDate = document.getElementById('date').value;
+    const taskPriority = document.getElementById('priority').value;
 
-        // Adding task div along with filled information.
-        taskDivInDOM(
-            newTask.title,
-            newTask.desc,
-            newTask.date,
-            newTask.priority
-        )
+    const newTask = new task(
+      taskTitle,
+      taskDesc,
+      taskDate,
+      taskPriority
+    );
 
-        // Going back to task list after adding task.
-        display.tasks()
-    }
+    // Adding task div along with filled information.
+    taskDivInDOM(
+      newTask.title,
+      newTask.desc,
+      newTask.date,
+      newTask.priority
+    );
 
-    function submitTask() {
-        const taskSubmit = document.querySelector('.task-submit-btn')
-        taskSubmit.addEventListener('click', fillTaskInfo)
-    }
+    // Going back to task list after adding task.
+    display.tasks();
+  }
 
-    return {
-        submitTask
-    }
+  function submitTask () {
+    const taskSubmit = document.querySelector('.task-submit-btn');
+    taskSubmit.addEventListener('click', fillTaskInfo);
+  }
 
-})()
+  return {
+    submitTask
+  };
+})();
 
-export {tasks}
+export { tasks };

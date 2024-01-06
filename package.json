@@ -4,13 +4,17 @@
   "description": "Redoing TOP's To-Do list project. Going to improve code maintainability and readability this time by seperating the DOM from the application logic and separating necessary modules along with using modular patterns.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dist":"webpack",
+    "dist:watch":"webpack --watch",
+    "lint": "semistandard ./src/**/*.js",
+    "lint:fix":"semistandard ./src/**/*.js --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^6.8.1",
+    "semistandard": "^17.0.0",
     "style-loader": "^3.3.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.89.0",
