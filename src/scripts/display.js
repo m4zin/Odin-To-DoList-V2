@@ -1,35 +1,28 @@
 const display = (function() {
-    // Button & div for quick tasks manager.
+    // Buttons w/ related div for quick tasks manager.
     const tasksBtn = document.querySelectorAll('.quick-tasks')
     const tasksDiv = document.querySelector('.quick-tasks-manager')
 
-    // Button & div for task info form.
+    // Buttons w/ related div for task info form.
     const formDiv = document.querySelector('.create-task-form')
     const formBtn = document.querySelector('.add-task-btn')
 
-    // After task submission
+    // Button to submit task.
     const formSubmit = document.querySelector('.task-submit-btn')
 
-    function displayTasks() {
+    function tasks() {
         formDiv.style.display = 'none';
         tasksDiv.style.display = 'grid';
     }
-    
-    // Displaying tasks div when clicking on,
-        // sidebar quick tasks button,
-        // Form go back / add task button.
-    function tasks() {
-        tasksBtn.forEach(btn => btn.addEventListener('click', displayTasks));
-        formSubmit.addEventListener('click', displayTasks)
-    }
 
-    // Displaying form div.
     function form() {
-        formBtn.addEventListener('click', () => {
-            tasksDiv.style.display = 'none'
-            formDiv.style.display = 'flex'
-        })
+        tasksDiv.style.display = 'none'
+        formDiv.style.display = 'flex'
     }
+    
+    tasksBtn.forEach(btn => btn.addEventListener('click', tasks));
+    formSubmit.addEventListener('click', tasks)
+    formBtn.addEventListener('click', form)
 
     return {
         tasks,

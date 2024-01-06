@@ -1,6 +1,10 @@
 import { display } from "./display";
 
 const tasks = (function() {
+
+    // Main div to append the tasks to.
+    const listOfTasks = document.querySelector('.list-of-quick-tasks')
+
     function task(title, desc, date, priority) {
         this.title = title;
         this.desc = desc;
@@ -8,6 +12,7 @@ const tasks = (function() {
         this.priority = priority
     }
 
+    // Creating element with tag and class name.
     function createElem(tag, name) {
         const elem = document.createElement(tag)
         elem.className = name;
@@ -15,10 +20,33 @@ const tasks = (function() {
         return elem
     }
 
+    // Checking if any field in task form is empty.
+    function checkIfEmpty(value) {
+        return value === '' ? 'empty' : value;
+    }
+
+    // Deleting/Editing a task
+    function editOrDelTask(e) {
+        const task = e.target.closest('.task')
+
+        if(e.target.className == 'del-task-btn') {
+            task.remove()
+        } 
+        else if(e.target.className == 'edit-task-btn') {
+            display.form()
+
+            document.getElementById('title').value = task.querySelector('.task-name').innerHTML
+            document.getElementById('description').value = task.querySelector('.task-desc').innerHTML
+            // Look how to format date innerHTML to the form whilst editing task.
+                // document.getElementById('date').value = formattedDate
+            document.getElementById('priority').value = (task.querySelector('.task-priority').innerHTML).split(' ')[0]
+            
+        }
+
+    }
+    
     // Creating task div and it's various diff child elements.
     function taskDivInDOM(title, desc, date, prority) {
-        // Main div to append the tasks to.
-        const listOfTasks = document.querySelector('.list-of-quick-tasks')
 
         // First main child (Task).
         const task = createElem('div', 'task')
@@ -62,6 +90,7 @@ const tasks = (function() {
 
         // Children of taskCheckbox
         const inputCheck = document.createElement('input')
+        inputCheck.type = 'checkbox'
         inputCheck.id = 'checkbox'
         const inputLabel = document.createElement('label')
         inputLabel.setAttribute('for', 'checkbox')
@@ -82,6 +111,10 @@ const tasks = (function() {
             editBtn,
             delBtn
         )
+
+        delBtn.addEventListener('click', editOrDelTask)
+        editBtn.addEventListener('click', editOrDelTask)
+
     }
 
     function fillTaskInfo() {
@@ -91,12 +124,20 @@ const tasks = (function() {
         let taskDate = document.getElementById('date').value;
         let taskPriority = document.getElementById('priority').value;
 
+        // Checking if any fields are empty.
+        taskTitle = checkIfEmpty(taskTitle)
+        taskDesc = checkIfEmpty(taskDesc)
+        taskDate = checkIfEmpty(taskDate)
+        taskPriority = checkIfEmpty(taskPriority)
+
         let newTask = new task(
             taskTitle,
             taskDesc,
             taskDate,
             taskPriority
         )
+
+        console.log(newTask.title)
 
         // Adding task div along with filled information.
         taskDivInDOM(

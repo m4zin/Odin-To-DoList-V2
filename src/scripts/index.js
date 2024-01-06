@@ -1,13 +1,9 @@
 import '../css/styles.css'
-import { display } from './display'
-import { tasks } from './tasks'
+import { tasks } from './tasks.js'
 
 const buttons = (function() {
-
-    // Displaying different divs on btn clicks.
-    display.tasks()
-    display.form()
     
+    // Addition of task after filling form.
     tasks.submitTask()
 
 })()
