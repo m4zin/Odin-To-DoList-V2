@@ -219,6 +219,7 @@ html {
 }
 
 #checkbox {
+    vertical-align: middle;
     height: 18px;
     width: 18px;
 }
