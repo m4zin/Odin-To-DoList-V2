@@ -72,6 +72,28 @@
                 <button type="button" class="quick-tasks">Go back</button>
             </form>
 
+            <!-- Form to edit a task -->
+            <form class="edit-task-form">
+                <label for="edit-title">Title <br>
+                    <input type="text" name="edit-title" id="editTitle">
+                </label>
+                <label for="edit-description">Short Description (Max character length: 75)<br>
+                    <input type="text" name="edit-description" id="editDescription" maxlength="75">
+                </label>
+                <label for="edit-date">Date <br>
+                    <input type="date" name="edit-date" id="editDate">
+                </label>
+                <label for="edit-priority">Priority <br>
+                    <select name="edit-priority" id="editPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </label>
+                <button type="button" class="edit-task-submit-btn">Edit Task</button>
+                <button type="button" class="quick-tasks">Go back</button>
+            </form>
+
         </main>
     </div>
 
