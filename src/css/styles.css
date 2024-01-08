@@ -76,6 +76,7 @@ html {
 }
 
 .quick-tasks-and-projects button:hover,
+.edit-task-form button:hover,
 .heading-and-add-task-btn button:hover,
 .create-task-form button:hover {
     transition: 0.3s;
@@ -86,6 +87,7 @@ html {
 
 .quick-tasks-and-projects button:active,
 .heading-and-add-task-btn button:active,
+.edit-task-form button:active,
 .create-task-form button:active {
     transition: 0.3s;
     transform: scale(0.99);
@@ -134,7 +136,11 @@ html {
 .create-task-form,
 .create-task-form input,
 .create-task-form select,
-.create-task-form button {
+.create-task-form button,
+.edit-task-form,
+.edit-task-form input,
+.edit-task-form select,
+.edit-task-form button {
     width: 100%;
     height: 75%;
     font-size: 16px;
@@ -149,7 +155,8 @@ html {
     border: 3px solid #FFFFFF;
 }
 
-.create-task-form {
+.create-task-form,
+.edit-task-form {
     display: none;
     height: fit-content;
     width: fit-content;
@@ -167,7 +174,8 @@ html {
     padding: 20px;
 }
 
-.create-task-form button {
+.create-task-form button,
+.edit-task-form button {
     color: #FFFFFF;
     border: 2px solid #FFFFFF;
     height: 50px;
