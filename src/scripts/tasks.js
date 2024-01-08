@@ -5,6 +5,9 @@ const tasks = (function() {
     // Main div to append the tasks to.
     const listOfTasks = document.querySelector('.list-of-quick-tasks')
 
+    // Variable to store the referenced task
+    let editingTask = null
+
     function task(title, desc, date, priority) {
         this.title = title;
         this.desc = desc;
@@ -25,29 +28,40 @@ const tasks = (function() {
         return value === '' ? 'empty' : value;
     }
 
+    // Quickly fill editing form with old task vals.
+    function fillEditForm(inputID, val) {
+        let input = document.getElementById(inputID)
+        input.value = val
+    }
+
     // Deleting/Editing a task
     function editOrDelTask(e) {
+        // closest task to clicked btn.
         const task = e.target.closest('.task')
+
+        const prevTitle = task.querySelector('.task-name')
+        const prevDesc = task.querySelector('.task-desc')
+        const prevDate = task.querySelector('.task-date')
+        const prevPriority = task.querySelector('.task-priority')
 
         if(e.target.className == 'del-task-btn') {
             task.remove()
         } 
         else if(e.target.className == 'edit-task-btn') {
-            display.form()
+            editingTask = task
 
-            document.getElementById('title').value = task.querySelector('.task-name').innerHTML
-            document.getElementById('description').value = task.querySelector('.task-desc').innerHTML
-            // Look how to format date innerHTML to the form whilst editing task.
-                // document.getElementById('date').value = formattedDate
-            document.getElementById('priority').value = (task.querySelector('.task-priority').innerHTML).split(' ')[0]
-            
+            // Displaying the edit form
+            display.editForm()
+
+            fillEditForm('editTitle', prevTitle.innerHTML) 
+            fillEditForm('editDescription', prevDesc.innerHTML)
+            fillEditForm('editDate', prevDate.innerHTML.split(' ')[1]) 
+            fillEditForm('editPriority', prevPriority.innerHTML.split(' ')[0])
         }
-
     }
     
     // Creating task div and it's various diff child elements.
     function taskDivInDOM(title, desc, date, prority) {
-
         // First main child (Task).
         const task = createElem('div', 'task')
         listOfTasks.append(task)
@@ -114,50 +128,60 @@ const tasks = (function() {
 
         delBtn.addEventListener('click', editOrDelTask)
         editBtn.addEventListener('click', editOrDelTask)
-
     }
 
-    function fillTaskInfo() {
-        //Task values from form. 
-        let taskTitle = document.getElementById('title').value;
-        let taskDesc = document.getElementById('description').value;
-        let taskDate = document.getElementById('date').value;
-        let taskPriority = document.getElementById('priority').value;
-
+    function fillTaskInfo(e) {
         // Checking if any fields are empty.
-        taskTitle = checkIfEmpty(taskTitle)
-        taskDesc = checkIfEmpty(taskDesc)
-        taskDate = checkIfEmpty(taskDate)
-        taskPriority = checkIfEmpty(taskPriority)
+        const getFieldValue = (id) => checkIfEmpty(document.getElementById(id).value);
 
-        let newTask = new task(
-            taskTitle,
-            taskDesc,
-            taskDate,
-            taskPriority
-        )
+        // Task values for filling deets in new form.
+        let taskTitle = getFieldValue('title');
+        let taskDesc = getFieldValue('description');
+        let taskDate = getFieldValue('date');
+        let taskPriority = getFieldValue('priority');
 
-        console.log(newTask.title)
+        // Edited task values in form.
+        let editedTaskTitle = getFieldValue('editTitle');
+        let editedTaskDesc = getFieldValue('editDescription');
+        let editedTaskDate = getFieldValue('editDate');
+        let editedTaskPriority = getFieldValue('editPriority');
 
-        // Adding task div along with filled information.
-        taskDivInDOM(
-            newTask.title,
-            newTask.desc,
-            newTask.date,
-            newTask.priority
-        )
+        if (e.target.className == 'task-submit-btn') {
+            let newTask = new task(
+                taskTitle,
+                taskDesc,
+                taskDate,
+                taskPriority
+            )
 
-        // Going back to task list after adding task.
+            // Adding task div along with filled information.
+            taskDivInDOM(
+                newTask.title,
+                newTask.desc,
+                newTask.date,
+                newTask.priority
+            )
+        } else if (e.target.className == 'edit-task-submit-btn') {
+            // filling edited task with new values
+            editingTask.querySelector('.task-name').innerHTML = editedTaskTitle
+            editingTask.querySelector('.task-desc').innerHTML = editedTaskDesc
+            editingTask.querySelector('.task-date').innerHTML = `Due ${editedTaskDate}`
+            editingTask.querySelector('.task-priority').innerHTML = `${editedTaskPriority} priority`
+        }
+
         display.tasks()
     }
 
-    function submitTask() {
+    function addOrEditTask() {
         const taskSubmit = document.querySelector('.task-submit-btn')
+        const editedTaskSubmit = document.querySelector('.edit-task-submit-btn')
+
         taskSubmit.addEventListener('click', fillTaskInfo)
+        editedTaskSubmit.addEventListener('click', fillTaskInfo)
     }
 
     return {
-        submitTask
+        addOrEditTask
     }
 
 })()
