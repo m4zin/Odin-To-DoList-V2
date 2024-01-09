@@ -1,6 +1,6 @@
 import { display } from "./display";
 
-const tasks = (function() {
+const tasks = (function () {
 
     // Main div to append the tasks to.
     const listOfTasks = document.querySelector('.list-of-quick-tasks')
@@ -19,7 +19,7 @@ const tasks = (function() {
     function createElem(tag, name) {
         const elem = document.createElement(tag)
         elem.className = name;
-    
+
         return elem
     }
 
@@ -44,22 +44,22 @@ const tasks = (function() {
         const prevDate = task.querySelector('.task-date')
         const prevPriority = task.querySelector('.task-priority')
 
-        if(e.target.className == 'del-task-btn') {
+        if (e.target.className == 'del-task-btn') {
             task.remove()
-        } 
-        else if(e.target.className == 'edit-task-btn') {
+        }
+        else if (e.target.className == 'edit-task-btn') {
             editingTask = task
 
             // Displaying the edit form
             display.editForm()
 
-            fillEditForm('editTitle', prevTitle.innerHTML) 
+            fillEditForm('editTitle', prevTitle.innerHTML)
             fillEditForm('editDescription', prevDesc.innerHTML)
-            fillEditForm('editDate', prevDate.innerHTML.split(' ')[1]) 
+            fillEditForm('editDate', prevDate.innerHTML.split(' ')[1])
             fillEditForm('editPriority', prevPriority.innerHTML.split(' ')[0])
         }
     }
-    
+
     // Creating task div and it's various diff child elements.
     function taskDivInDOM(title, desc, date, prority) {
         // First main child (Task).
@@ -186,4 +186,4 @@ const tasks = (function() {
 
 })()
 
-export {tasks}
+export { tasks }
