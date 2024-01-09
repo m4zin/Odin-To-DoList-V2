@@ -18,6 +18,9 @@ const display = (function () {
     const displayAddProjInput = document.querySelector('.add-proj-btn')
     const cancelAddProj = document.querySelector('.cancel-proj')
 
+    // Div for projects 
+    const projects = document.querySelector('.projects')
+
     function closeInputBarProjName() {
         inputProjName.style.display = 'none'
     }
@@ -29,6 +32,7 @@ const display = (function () {
     function tasks() {
         formDiv.style.display = 'none';
         editFormDiv.style.display = 'none';
+        projects.style.display = 'none'
         tasksDiv.style.display = 'grid';
     }
 
