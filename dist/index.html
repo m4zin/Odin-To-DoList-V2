@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOP | To-Do List Project</title>
     <script src="main.js" defer></script>
 </head>
+
 <body>
 
     <div class="root">
@@ -15,13 +17,27 @@
             </div>
             <div class="quick-tasks-and-projects">
                 <button class="quick-tasks" type="button">Quick tasks</button>
-                <button class="projects" type="button">Projects</button>
+                <div class="proj-heading-and-add-btn">
+                    <div>
+                        <h2>Projects</h2>
+                        <button class="add-proj-btn">+</button>
+                    </div>
+                    <div class="proj-btns">
+
+                    </div>
+                    <div class="input-proj-name">
+                        <label for="project-name">Project Name:</label>
+                        <input type="text" name="project-name" id="projectName">
+                        <button class="add-proj" type="button">Add</button>
+                        <button class="cancel-proj" type="button">Cancel</button>
+                    </div>
+                </div>
             </div>
         </aside>
         <main class="main-content">
             <div class="quick-tasks-manager">
                 <div class="heading-and-add-task-btn">
-                    <h2>Your tasks</h2>
+                    <h2>Your Quick tasks</h2>
                     <button class="add-task-btn">Click me to add a task +</button>
                 </div>
                 <div class="list-of-quick-tasks">
@@ -46,8 +62,18 @@
                 </div>
             </div>
 
-            <!-- <div class="projects-manager">
+            <!-- <div class="projects">
+                <div class="project-task-manager">
+                    <div class="proj-heading-and-add-task-btn">
+                        <h2>The Odin Project</h2>
+                        <button class="add-task-to-proj-btn">
+                            Click me to add a task to this project +
+                        </button>
+                    </div>
+                    <div class="list-of-proj-tasks">
 
+                    </div>
+                </div>
             </div> -->
 
             <!-- Form to create new task -->
@@ -98,4 +124,5 @@
     </div>
 
 </body>
+
 </html>
