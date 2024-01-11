@@ -8,6 +8,12 @@ const tasks = (function () {
     // Variable to store the referenced task
     let editingTask = null
 
+    // projects div
+    const projects = document.querySelector('.projects')
+
+    // selected proj
+    let currentProj = null
+
     function task(title, desc, date, priority) {
         this.title = title;
         this.desc = desc;
@@ -61,10 +67,13 @@ const tasks = (function () {
     }
 
     // Creating task div and it's various diff child elements.
-    function taskDivInDOM(title, desc, date, prority) {
+    function taskDivInDOM(title, desc, date, prority, currDiv) {
+
         // First main child (Task).
         const task = createElem('div', 'task')
-        listOfTasks.append(task)
+
+        // listOfTasks.append(task)
+        currDiv.append(task)
 
         // Children of task.
         const nameDescDate = createElem('div', 'name-desc-date')
@@ -146,6 +155,12 @@ const tasks = (function () {
         let editedTaskDate = getFieldValue('editDate');
         let editedTaskPriority = getFieldValue('editPriority');
 
+        // Proj task values in form.
+        let projTaskTitle = getFieldValue('projTaskTitle');
+        let projTaskDesc = getFieldValue('projTaskDescription');
+        let projTaskDate = getFieldValue('projTaskDate');
+        let projTaskPriority = getFieldValue('projTaskPriority');
+
         if (e.target.className == 'task-submit-btn') {
             let newTask = new task(
                 taskTitle,
@@ -159,25 +174,56 @@ const tasks = (function () {
                 newTask.title,
                 newTask.desc,
                 newTask.date,
-                newTask.priority
+                newTask.priority,
+                listOfTasks
             )
-        } else if (e.target.className == 'edit-task-submit-btn') {
+            
+            display.tasks()
+        } 
+        else if (e.target.className == 'edit-task-submit-btn') {
             // filling edited task with new values
             editingTask.querySelector('.task-name').innerHTML = editedTaskTitle
             editingTask.querySelector('.task-desc').innerHTML = editedTaskDesc
             editingTask.querySelector('.task-date').innerHTML = `Due ${editedTaskDate}`
             editingTask.querySelector('.task-priority').innerHTML = `${editedTaskPriority} priority`
+            
+            display.tasks()
         }
+        else if (e.target.className == 'proj-task-submit-btn') {
+            let newProjTask = new task(
+                projTaskTitle,
+                projTaskDesc,
+                projTaskDate,
+                projTaskPriority
+            )
 
-        display.tasks()
+            // Adding task div along with filled information.
+            taskDivInDOM(
+                newProjTask.title,
+                newProjTask.desc,
+                newProjTask.date,
+                newProjTask.priority,
+                currentProj
+            )
+            display.proj()
+        }
     }
 
     function addOrEditTask() {
         const taskSubmit = document.querySelector('.task-submit-btn')
         const editedTaskSubmit = document.querySelector('.edit-task-submit-btn')
+        const projTaskSubmit = document.querySelector('.proj-task-submit-btn')
 
         taskSubmit.addEventListener('click', fillTaskInfo)
         editedTaskSubmit.addEventListener('click', fillTaskInfo)
+
+        // Getting selected project.
+        projects.addEventListener('click', (e) => {
+            if(e.target.className == 'add-task-to-proj-btn') {
+                currentProj = e.target.closest('.project').querySelector('.list-of-proj-tasks')
+            }
+        })
+        projTaskSubmit.addEventListener('click', fillTaskInfo)
     }
 
     return {

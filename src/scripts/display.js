@@ -1,5 +1,5 @@
 const display = (function () {
-    // Buttons w/ related div for quick tasks manager.
+    // Buttons w/ related div for quick tasks manager & project tasks manager.
     const tasksBtn = document.querySelectorAll('.quick-tasks')
     const tasksDiv = document.querySelector('.quick-tasks-manager')
 
@@ -7,6 +7,7 @@ const display = (function () {
     const formDiv = document.querySelector('.create-task-form')
     const addTaskBtn = document.querySelector('.add-task-btn')
     const editFormDiv = document.querySelector('.edit-task-form')
+    const projFormDiv = document.querySelector('.proj-task-form')
 
     // Button to submit task.
     const formSubmitBtn = document.querySelector('.task-submit-btn')
@@ -20,6 +21,9 @@ const display = (function () {
 
     // Div for projects 
     const projects = document.querySelector('.projects')
+
+    // Submit task to project btn
+    // const submitProjTask = document.querySelector('.proj-task-submit-btn')
 
     function closeInputBarProjName() {
         inputProjName.style.display = 'none'
@@ -46,6 +50,18 @@ const display = (function () {
         editFormDiv.style.display = 'flex'
     }
 
+    function taskFormForProj(e) {
+        if(e.target.className == 'add-task-to-proj-btn') {
+            projects.style.display = 'none'
+            projFormDiv.style.display = 'flex'
+        }
+    }
+
+    function proj() {
+        projFormDiv.style.display = 'none'
+        projects.style.display = 'grid'
+    }
+
     tasksBtn.forEach(btn => btn.addEventListener('click', tasks));
     formSubmitBtn.addEventListener('click', tasks)
     addTaskBtn.addEventListener('click', form)
@@ -53,11 +69,15 @@ const display = (function () {
     displayAddProjInput.addEventListener('click', OpenInputBarProjName)
     cancelAddProj.addEventListener('click', closeInputBarProjName)
 
+    projects.addEventListener('click', taskFormForProj)
+    // submitProjTask.addEventListener('click', proj)
+
     return {
         tasks,
         form,
         editForm,
-        closeInputBarProjName
+        closeInputBarProjName,
+        proj
     }
 })()
 

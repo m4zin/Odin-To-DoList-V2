@@ -25,7 +25,7 @@ const projects = (function () {
             // Check if the project has the target data attribute
             if (project.dataset.projId === projBtn) {
                 // Display the target project
-                project.style.display = 'block'; // or set any other appropriate display property
+                project.style.display = 'grid'; // or set any other appropriate display property
             } else {
                 // Hide other projects
                 project.style.display = 'none';
@@ -62,23 +62,55 @@ const projects = (function () {
             const project = document.createElement('div')
             project.className = 'project'
 
-            //div containing task addition / edition / deletion.
-            // const projTaskManager = document.createElement('div')
-            const testStuff = document.createElement('h1')
-            testStuff.innerHTML = projName
+            // Now appending all the elements that would comprise a project
+            // the task manager
+            const projTaskManager = document.createElement('div')
+            projTaskManager.className = 'project-task-manager'
 
-            getProjDiv(projBtn)
+            // project heading and add task btn.
+            const projHeading = document.createElement('h2')
+            projHeading.innerHTML = projName
 
-            project.append(testStuff)
+            // Button add task to pojrect
+            const addTaskToProjBtn = document.createElement('button')
+            addTaskToProjBtn.className = 'add-task-to-proj-btn'
+            addTaskToProjBtn.innerHTML = 'Click me to add a task to this project +'
+
+            // Appending heading and add task button to task manager div
+            projTaskManager.append(
+                projHeading,
+                addTaskToProjBtn
+            )
+
+            // the list comprising of the tasks in a proj
+            const taskList = document.createElement('div')
+            taskList.className = 'list-of-proj-tasks'
+
+            // Appending task manager and proj tasks to project div
+            project.append(
+                projTaskManager,
+                taskList
+            )
+
             project.setAttribute('data-proj-id', count)
 
             projects.append(
                 project
             )
+
+            projects.style.display = 'none'
+
+            getProjDiv(projBtn)
         })()
 
         count = count + 1
+    }
 
+    function addTaskToProj(e) {
+        // Project id of clicked add task button
+        const clickedProjID = e.target.closest('.project').dataset.projId;
+
+        console.log(clickedProjID)
     }
 
     addProjBtn.addEventListener('click', () => {
@@ -87,6 +119,7 @@ const projects = (function () {
     })
 
     projBtns.addEventListener('click', selectProjDiv)
+    projects.addEventListener('click', addTaskToProj)
 
 })()
 
