@@ -72,7 +72,7 @@
                             </button>
                         </div>
                         <div class="list-of-proj-tasks">
-
+                            
                         </div>
                     </div>
                 </div> -->
@@ -120,6 +120,28 @@
                 </label>
                 <button type="button" class="edit-task-submit-btn">Edit Task</button>
                 <button type="button" class="quick-tasks">Go back</button>
+            </form>
+
+            <!-- Form to edit a task -->
+            <form class="proj-task-form">
+                <label for="proj-task-title">Title <br>
+                    <input type="text" name="proj-task-title" id="projTaskTitle">
+                </label>
+                <label for="proj-task-description">Short Description (Max character length: 75)<br>
+                    <input type="text" name="proj-task-description" id="projTaskDescription" maxlength="75">
+                </label>
+                <label for="proj-task-date">Date <br>
+                    <input type="date" name="proj-task-date" id="projTaskDate">
+                </label>
+                <label for="proj-task-priority">Priority <br>
+                    <select name="proj-task-priority" id="projTaskPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </label>
+                <button type="button" class="proj-task-submit-btn">Add Task</button>
+                <button type="button">Go back</button> 
             </form>
 
         </main>
