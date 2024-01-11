@@ -50,6 +50,11 @@ const display = (function () {
         editFormDiv.style.display = 'flex'
     }
 
+    function editProjTaskForm() {
+        projects.style.display = 'none'
+        editFormDiv.style.display = 'flex'
+    }
+
     function taskFormForProj(e) {
         if(e.target.className == 'add-task-to-proj-btn') {
             projects.style.display = 'none'
@@ -60,6 +65,11 @@ const display = (function () {
     function proj() {
         projFormDiv.style.display = 'none'
         projects.style.display = 'grid'
+    }
+
+    function projAfterEditTask() {
+        projects.style.display = 'grid'
+        editFormDiv.style.display = 'none'
     }
 
     tasksBtn.forEach(btn => btn.addEventListener('click', tasks));
@@ -76,8 +86,10 @@ const display = (function () {
         tasks,
         form,
         editForm,
+        editProjTaskForm,
         closeInputBarProjName,
-        proj
+        proj,
+        projAfterEditTask
     }
 })()
 

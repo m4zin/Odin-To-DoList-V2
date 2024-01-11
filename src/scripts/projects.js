@@ -36,11 +36,12 @@ const projects = (function () {
     // find if proj name and div classnames are equal, then
     // display proj's respective div.
     function selectProjDiv(e) {
-        projects.style.display = 'grid'
-        quickTasks.style.display = 'none'
-        const projBtn = e.target.dataset.btnId;
-
-        getProjDiv(projBtn)
+        if(e.target.tagName === 'BUTTON') {
+            projects.style.display = 'grid'
+            quickTasks.style.display = 'none'
+            const projBtn = e.target.dataset.btnId;
+            getProjDiv(projBtn)
+        }
     }
 
     function addProj() {

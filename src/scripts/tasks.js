@@ -14,6 +14,10 @@ const tasks = (function () {
     // selected proj
     let currentProj = null
 
+    // Edit task for quick or project
+    let editQuickTask = null
+    let editProjTask = null
+
     function task(title, desc, date, priority) {
         this.title = title;
         this.desc = desc;
@@ -56,8 +60,15 @@ const tasks = (function () {
         else if (e.target.className == 'edit-task-btn') {
             editingTask = task
 
-            // Displaying the edit form
-            display.editForm()
+            if(e.target.closest('.list-of-quick-tasks')) {
+                // Displaying the edit form
+                display.editForm()
+                editQuickTask = true
+            } else if(e.target.closest('.list-of-proj-tasks')) {
+                // Displaying the edit form for project task
+                display.editProjTaskForm()
+                editProjTask = true
+            }
 
             fillEditForm('editTitle', prevTitle.innerHTML)
             fillEditForm('editDescription', prevDesc.innerHTML)
@@ -177,8 +188,6 @@ const tasks = (function () {
                 newTask.priority,
                 listOfTasks
             )
-            
-            display.tasks()
         } 
         else if (e.target.className == 'edit-task-submit-btn') {
             // filling edited task with new values
@@ -186,8 +195,14 @@ const tasks = (function () {
             editingTask.querySelector('.task-desc').innerHTML = editedTaskDesc
             editingTask.querySelector('.task-date').innerHTML = `Due ${editedTaskDate}`
             editingTask.querySelector('.task-priority').innerHTML = `${editedTaskPriority} priority`
-            
-            display.tasks()
+
+            if(editQuickTask) {
+                display.tasks()
+                editQuickTask = false
+            } else if(editProjTask) {
+                display.projAfterEditTask()
+                editProjTask = false
+            } 
         }
         else if (e.target.className == 'proj-task-submit-btn') {
             let newProjTask = new task(
