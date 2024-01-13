@@ -17,6 +17,9 @@ const projects = (function () {
     // Hiding quick tasks div if present
     const quickTasks = document.querySelector('.quick-tasks-manager')
 
+    // To hide project form div.
+    const projFormDiv = document.querySelector('.proj-task-form')
+
     function getProjDiv(projBtn) {
         // Loop through the project elements and hide all except the one with the target data attribute
         for (let i = 0; i < projects.children.length; i++) {
@@ -36,42 +39,35 @@ const projects = (function () {
     // find if proj name and div classnames are equal, then
     // display proj's respective div.
     function selectProjDiv(e) {
-        if(e.target.tagName === 'BUTTON') {
+        if (e.target.tagName === 'BUTTON') {
             projects.style.display = 'grid'
             quickTasks.style.display = 'none'
+            projFormDiv.style.display = 'none'
             const projBtn = e.target.dataset.btnId;
             getProjDiv(projBtn)
         }
     }
 
-    function addProj() {
-        // Input value
-        let projName = document.getElementById('projectName').value
-
+    function checkIfUniqueOrEmpty(projName) {
         // List of buttons in project buttons.
         const btns = projBtns.querySelectorAll('button')
 
         // Checking if proj name not given.
-        if(projName == '') {
+        if (projName == '') {
             alert('Please give a name to the project.')
-            return
+            return false
         }
 
         // Checking if proj name already exists.
-        for(let i = 0; i < btns.length; i++)
-        {
-            if(btns[i].innerHTML == projName) {
+        for (let i = 0; i < btns.length; i++) {
+            if (btns[i].innerHTML == projName) {
                 alert('This project name already exists.')
-                return
+                return false
             }
         }
+    }
 
-        display.closeInputBarProjName()
-
-        // Setting an object for the project in local storage.
-        let arr = []
-        localStorage.setItem(`${projName}`, JSON.stringify(arr))
-
+    function addProjBtnToSideBar(projName) {
         // Button to open new project
         const projBtn = document.createElement('button')
         // Setting the project name for the btn
@@ -131,11 +127,35 @@ const projects = (function () {
         count = count + 1
     }
 
+    function addProj() {
+        // Input value
+        let projName = document.getElementById('projectName').value
+
+        // Checking whether inputted progect name exists or empty.
+        if (checkIfUniqueOrEmpty(projName) == false) {
+            return
+        }
+
+        // Closing input bar after getting input.
+        display.closeInputBarProjName()
+
+        // Setting an object for the project in local storage.
+        let arr = []
+        localStorage.setItem(`${projName}`, JSON.stringify(arr))
+
+        addProjBtnToSideBar(projName)
+    }
+
     addProjBtn.addEventListener('click', () => {
         addProj()
     })
 
     projBtns.addEventListener('click', selectProjDiv)
+
+    return {
+        addProj,
+        addProjBtnToSideBar
+    }
 })()
 
 export { projects }

@@ -46,7 +46,7 @@ const tasks = (function () {
     }
 
     // Deleting task from local stroage if deleted from quick task manager.
-    function delTaskFromStorage(title) {
+    function delTaskFromQT(title) {
         // Retrieve the local storage data
         const quickTasksString = localStorage.getItem("quickTasks");
 
@@ -82,8 +82,13 @@ const tasks = (function () {
         const prevPriority = task.querySelector('.task-priority')
 
         if (e.target.className == 'del-task-btn' || e.target.id == 'checkbox') {
+            if(task.closest('.list-of-quick-tasks')) {
+                delTaskFromQT(prevTitle.innerHTML)
+            } else {
+                // Del task from proj.
+
+            }
             task.remove()
-            delTaskFromStorage(prevTitle.innerHTML)
         }
         else if (e.target.className == 'edit-task-btn') {
             editingTask = task
@@ -281,10 +286,16 @@ const tasks = (function () {
         }
     }
 
+    function goBackToProj() {
+        currProjList.closest('.project').style.display = 'grid'
+        display.proj()
+    }
+
     function addOrEditTask() {
         const taskSubmit = document.querySelector('.task-submit-btn')
         const editedTaskSubmit = document.querySelector('.edit-task-submit-btn')
         const projTaskSubmit = document.querySelector('.proj-task-submit-btn')
+        const goBackBtnForProj = document.querySelector('.go-back-to-proj')
 
         taskSubmit.addEventListener('click', fillTaskInfo)
         editedTaskSubmit.addEventListener('click', fillTaskInfo)
@@ -296,6 +307,7 @@ const tasks = (function () {
             }
         })
         projTaskSubmit.addEventListener('click', fillTaskInfo)
+        goBackBtnForProj.addEventListener('click', goBackToProj)
     }
 
     return {

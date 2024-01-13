@@ -22,9 +22,6 @@ const display = (function () {
     // Div for projects 
     const projects = document.querySelector('.projects')
 
-    // Submit task to project btn
-    // const submitProjTask = document.querySelector('.proj-task-submit-btn')
-
     function closeInputBarProjName() {
         inputProjName.style.display = 'none'
     }
