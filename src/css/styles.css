@@ -195,12 +195,13 @@ html {
 /* Quick tasks list styling */
 .list-of-quick-tasks,
 .list-of-proj-tasks {
+    height: inherit;
     padding: 25px;
     border-top: 3px solid #7e22ce;
     gap: 20px;
+    overflow: scroll;
     max-height: 600px;
     display: grid;
-    overflow-y: scroll;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(auto, 1fr);
 }
@@ -374,7 +375,7 @@ html {
 .proj-btns button {
     min-height: 40px;
     min-width: 250px;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .projects {
@@ -395,7 +396,8 @@ html {
 
 .project {
     display: grid;
-    grid-template-rows: 1.5fr 8fr;
+    height: 100%;
+    grid-template-rows: 1.5fr 5fr;
 }
 
 .project-task-manager {
@@ -408,12 +410,12 @@ html {
     justify-content: space-evenly;
 }
 
-.list-of-proj-tasks {
-    height: inherit;
-}
-
 .project-task-manager button {
     height: 50px;
     width: 100%;
+}
+
+.list-of-proj-tasks {
+    max-height: 500px;
 }
 
