@@ -46,7 +46,31 @@ const projects = (function () {
 
     function addProj() {
         // Input value
-        const projName = document.getElementById('projectName').value
+        let projName = document.getElementById('projectName').value
+
+        // List of buttons in project buttons.
+        const btns = projBtns.querySelectorAll('button')
+
+        // Checking if proj name not given.
+        if(projName == '') {
+            alert('Please give a name to the project.')
+            return
+        }
+
+        // Checking if proj name already exists.
+        for(let i = 0; i < btns.length; i++)
+        {
+            if(btns[i].innerHTML == projName) {
+                alert('This project name already exists.')
+                return
+            }
+        }
+
+        display.closeInputBarProjName()
+
+        // Setting an object for the project in local storage.
+        let arr = []
+        localStorage.setItem(`${projName}`, JSON.stringify(arr))
 
         // Button to open new project
         const projBtn = document.createElement('button')
@@ -107,21 +131,11 @@ const projects = (function () {
         count = count + 1
     }
 
-    function addTaskToProj(e) {
-        // Project id of clicked add task button
-        const clickedProjID = e.target.closest('.project').dataset.projId;
-
-        console.log(clickedProjID)
-    }
-
     addProjBtn.addEventListener('click', () => {
         addProj()
-        display.closeInputBarProjName()
     })
 
     projBtns.addEventListener('click', selectProjDiv)
-    projects.addEventListener('click', addTaskToProj)
-
 })()
 
 export { projects }

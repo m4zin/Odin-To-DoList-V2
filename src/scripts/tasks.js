@@ -1,4 +1,5 @@
 import { display } from "./display";
+import { storage } from "./localStorage";
 
 const tasks = (function () {
 
@@ -12,7 +13,7 @@ const tasks = (function () {
     const projects = document.querySelector('.projects')
 
     // selected proj
-    let currentProj = null
+    let currProjList = null
 
     // Edit task for quick or project
     let editQuickTask = null
@@ -44,6 +45,32 @@ const tasks = (function () {
         input.value = val
     }
 
+    // Deleting task from local stroage if deleted from quick task manager.
+    function delTaskFromStorage(title) {
+        // Retrieve the local storage data
+        const quickTasksString = localStorage.getItem("quickTasks");
+
+        // Parse the JSON string to get the array of tasks
+        const quickTasks = JSON.parse(quickTasksString) || [];
+
+        // Specify the title you want to delete
+        const titleToDelete = title; 
+
+        // Loop through the tasks to find and delete the task with the specified title
+        for (let i = 0; i < quickTasks.length; i++) {
+            if (quickTasks[i].title === titleToDelete) {
+                // Remove the task with the specified title
+                quickTasks.splice(i, 1);
+
+                // Update the local storage with the modified array
+                localStorage.setItem("quickTasks", JSON.stringify(quickTasks));
+
+                // Break out of the loop since the task is found and deleted
+                break;
+            }
+        }
+    }
+
     // Deleting/Editing a task
     function editOrDelTask(e) {
         // closest task to clicked btn.
@@ -54,8 +81,9 @@ const tasks = (function () {
         const prevDate = task.querySelector('.task-date')
         const prevPriority = task.querySelector('.task-priority')
 
-        if (e.target.className == 'del-task-btn') {
+        if (e.target.className == 'del-task-btn' || e.target.id == 'checkbox') {
             task.remove()
+            delTaskFromStorage(prevTitle.innerHTML)
         }
         else if (e.target.className == 'edit-task-btn') {
             editingTask = task
@@ -147,10 +175,12 @@ const tasks = (function () {
         )
 
         delBtn.addEventListener('click', editOrDelTask)
+        inputCheck.addEventListener('click', editOrDelTask)
         editBtn.addEventListener('click', editOrDelTask)
     }
 
     function fillTaskInfo(e) {
+
         // Checking if any fields are empty.
         const getFieldValue = (id) => checkIfEmpty(document.getElementById(id).value);
 
@@ -173,12 +203,26 @@ const tasks = (function () {
         let projTaskPriority = getFieldValue('projTaskPriority');
 
         if (e.target.className == 'task-submit-btn') {
+            const tasks = listOfTasks.querySelectorAll('.task-name')
+
+            for(let i = 0; i < tasks.length; i++)
+            {
+                if(tasks[i].innerHTML == taskTitle) 
+                {
+                    alert('Sorry this task title already exists, Add another unique title.')
+                    return
+                }
+            }
+
             let newTask = new task(
                 taskTitle,
                 taskDesc,
                 taskDate,
                 taskPriority
             )
+
+            // Adding task to local storage.
+            storage.addTask(newTask.title, newTask.desc, newTask.date, newTask.priority)
 
             // Adding task div along with filled information.
             taskDivInDOM(
@@ -188,6 +232,8 @@ const tasks = (function () {
                 newTask.priority,
                 listOfTasks
             )
+
+            display.tasks()
         } 
         else if (e.target.className == 'edit-task-submit-btn') {
             // filling edited task with new values
@@ -205,6 +251,10 @@ const tasks = (function () {
             } 
         }
         else if (e.target.className == 'proj-task-submit-btn') {
+
+            const currProj = currProjList.closest('.project')
+            const currProjName = currProj.querySelector('h2').textContent
+
             let newProjTask = new task(
                 projTaskTitle,
                 projTaskDesc,
@@ -212,13 +262,20 @@ const tasks = (function () {
                 projTaskPriority
             )
 
+            storage.addTaskToProj(
+                newProjTask.title, 
+                newProjTask.desc, 
+                newProjTask.date, 
+                newProjTask.priority, 
+                currProjName)
+
             // Adding task div along with filled information.
             taskDivInDOM(
                 newProjTask.title,
                 newProjTask.desc,
                 newProjTask.date,
                 newProjTask.priority,
-                currentProj
+                currProjList
             )
             display.proj()
         }
@@ -235,14 +292,15 @@ const tasks = (function () {
         // Getting selected project.
         projects.addEventListener('click', (e) => {
             if(e.target.className == 'add-task-to-proj-btn') {
-                currentProj = e.target.closest('.project').querySelector('.list-of-proj-tasks')
+                currProjList = e.target.closest('.project').querySelector('.list-of-proj-tasks')
             }
         })
         projTaskSubmit.addEventListener('click', fillTaskInfo)
     }
 
     return {
-        addOrEditTask
+        addOrEditTask,
+        taskDivInDOM
     }
 
 })()

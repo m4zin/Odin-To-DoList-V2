@@ -73,14 +73,12 @@ const display = (function () {
     }
 
     tasksBtn.forEach(btn => btn.addEventListener('click', tasks));
-    formSubmitBtn.addEventListener('click', tasks)
     addTaskBtn.addEventListener('click', form)
 
     displayAddProjInput.addEventListener('click', OpenInputBarProjName)
     cancelAddProj.addEventListener('click', closeInputBarProjName)
 
     projects.addEventListener('click', taskFormForProj)
-    // submitProjTask.addEventListener('click', proj)
 
     return {
         tasks,
