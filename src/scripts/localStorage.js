@@ -10,12 +10,12 @@ const storage = (function () {
 
     function getQuickTasks() {
         // If quick tasks doesn't exist then fall back to empty array.
-        return JSON.parse(localStorage.getItem('quickTasks')) || [];
+        return JSON.parse(localStorage.getItem(' ')) || [];
     }
 
     // Saving tasks to local storage
     function saveTasks(task) {
-        localStorage.setItem("quickTasks", JSON.stringify(task));
+        localStorage.setItem(" ", JSON.stringify(task));
     }
 
     // Finally function to add the task.
@@ -53,7 +53,7 @@ const storage = (function () {
             let key = localStorage.key(i);
 
             // Exclude the key "quicktasks"
-            if (key !== 'quickTasks') {
+            if (key !== ' ') {
                 // Do something with the key and its corresponding value
                 projects.addProjBtnToSideBar(key)
                 addDivToProj(key)
@@ -61,7 +61,7 @@ const storage = (function () {
         }   
     }
 
-    function addDivToProj(key) {
+    function addDivToProj() {
         let projBtn = projBtnList.querySelectorAll('button')
         let project = projectList.querySelectorAll('h2')
         

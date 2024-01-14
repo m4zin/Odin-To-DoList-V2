@@ -206,6 +206,10 @@ html {
     grid-template-rows: repeat(auto, 1fr);
 }
 
+.list-of-quick-tasks {
+    height: 500px;
+}
+
 /* Task styling */
 .task,
 .name-desc-date,

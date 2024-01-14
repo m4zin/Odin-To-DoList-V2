@@ -9,9 +9,6 @@ const display = (function () {
     const editFormDiv = document.querySelector('.edit-task-form')
     const projFormDiv = document.querySelector('.proj-task-form')
 
-    // Button to submit task.
-    const formSubmitBtn = document.querySelector('.task-submit-btn')
-
     // Buttons opening and closing for input/label to add project
     const inputProjName = document.querySelector('.input-proj-name')
 
@@ -35,6 +32,7 @@ const display = (function () {
         editFormDiv.style.display = 'none';
         projects.style.display = 'none'
         tasksDiv.style.display = 'grid';
+        projFormDiv.style.display = 'none'
     }
 
     function form() {

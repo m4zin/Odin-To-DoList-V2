@@ -17,8 +17,9 @@ const projects = (function () {
     // Hiding quick tasks div if present
     const quickTasks = document.querySelector('.quick-tasks-manager')
 
-    // To hide project form div.
+    // To hide project form div and quick tasks form if open
     const projFormDiv = document.querySelector('.proj-task-form')
+    const formDiv = document.querySelector('.create-task-form')
 
     function getProjDiv(projBtn) {
         // Loop through the project elements and hide all except the one with the target data attribute
@@ -43,6 +44,7 @@ const projects = (function () {
             projects.style.display = 'grid'
             quickTasks.style.display = 'none'
             projFormDiv.style.display = 'none'
+            formDiv.style.display = 'none'
             const projBtn = e.target.dataset.btnId;
             getProjDiv(projBtn)
         }
@@ -53,7 +55,7 @@ const projects = (function () {
         const btns = projBtns.querySelectorAll('button')
 
         // Checking if proj name not given.
-        if (projName == '') {
+        if (projName.trim() == '') {
             alert('Please give a name to the project.')
             return false
         }

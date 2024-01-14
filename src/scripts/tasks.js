@@ -15,10 +15,6 @@ const tasks = (function () {
     // selected proj
     let currProjList = null
 
-    // Edit task for quick or project
-    let editQuickTask = null
-    let editProjTask = null
-
     function task(title, desc, date, priority) {
         this.title = title;
         this.desc = desc;
@@ -46,11 +42,11 @@ const tasks = (function () {
     }
 
     // Deleting task from local storage if deleted from project.
-    function delTaskFromProj(taskName, task) {
+    function delTaskFromProj(taskName, currTask) {
         // Trasversing back from the title to the project to reach the project's name.
         let project = taskName.closest('.project')
         // Traversing back to the task from title.
-        task = taskName.closest('.task')
+        currTask = taskName.closest('.task')
 
         // Project name to be compared to the key in local storage
         let projectName = project.querySelector('.proj-name').innerHTML
@@ -71,14 +67,12 @@ const tasks = (function () {
 
         // Updating local storage with the new array.
         localStorage.setItem(projectName, JSON.stringify(newArray));
-
-        console.log(newArray);
     }
 
     // Deleting task from local stroage if deleted from quick task manager.
     function delTaskFromQT(title) {
         // Retrieve the local storage data
-        const quickTasksString = localStorage.getItem("quickTasks");
+        const quickTasksString = localStorage.getItem(" ");
 
         // Parse the JSON string to get the array of tasks
         const quickTasks = JSON.parse(quickTasksString) || [];
@@ -93,7 +87,7 @@ const tasks = (function () {
                 quickTasks.splice(i, 1);
 
                 // Update the local storage with the modified array
-                localStorage.setItem("quickTasks", JSON.stringify(quickTasks));
+                localStorage.setItem(" ", JSON.stringify(quickTasks));
 
                 // Break out of the loop since the task is found and deleted
                 break;
@@ -115,7 +109,6 @@ const tasks = (function () {
             if(task.closest('.list-of-quick-tasks')) {
                 delTaskFromQT(prevTitle.innerHTML)
             } else {
-                // Del task from proj.
                 delTaskFromProj(prevTitle, task)
             }
             task.remove()
@@ -126,11 +119,9 @@ const tasks = (function () {
             if(e.target.closest('.list-of-quick-tasks')) {
                 // Displaying the edit form
                 display.editForm()
-                editQuickTask = true
             } else if(e.target.closest('.list-of-proj-tasks')) {
                 // Displaying the edit form for project task
                 display.editProjTaskForm()
-                editProjTask = true
             }
 
             fillEditForm('editTitle', prevTitle.innerHTML)
@@ -271,19 +262,49 @@ const tasks = (function () {
             display.tasks()
         } 
         else if (e.target.className == 'edit-task-submit-btn') {
+
+            // Getting the task name.
+            let editedTitleInLS = editingTask.querySelector('.task-name')
+
+            if(editingTask.closest('.list-of-proj-tasks')) {
+                // Displaying project task manager div after submit.
+                display.projAfterEditTask()
+
+                // Deleting the task name from local storage of project.
+                delTaskFromProj(editedTitleInLS, editingTask)
+
+                // Getting project name
+                let projHeadLoc = editingTask.closest('.project')
+                let projName = projHeadLoc.querySelector('.proj-name').innerHTML
+
+                // Now adding the new edited task.
+                storage.addTaskToProj(
+                    editedTaskTitle,
+                    editedTaskDesc,
+                    editedTaskDate,
+                    editedTaskPriority,
+                    projName
+                )
+            } else {
+                display.tasks()
+
+                // Deleting task from local storage of quick tasks.
+                delTaskFromQT(editedTitleInLS.innerHTML)
+
+                // Then adding the new task into local storage
+                storage.addTask(
+                    editedTaskTitle,
+                    editedTaskDesc,
+                    editedTaskDate,
+                    editedTaskPriority
+                )
+            }
+
             // filling edited task with new values
             editingTask.querySelector('.task-name').innerHTML = editedTaskTitle
             editingTask.querySelector('.task-desc').innerHTML = editedTaskDesc
             editingTask.querySelector('.task-date').innerHTML = `Due ${editedTaskDate}`
             editingTask.querySelector('.task-priority').innerHTML = `${editedTaskPriority} priority`
-
-            if(editQuickTask) {
-                display.tasks()
-                editQuickTask = false
-            } else if(editProjTask) {
-                display.projAfterEditTask()
-                editProjTask = false
-            } 
         }
         else if (e.target.className == 'proj-task-submit-btn') {
             const currProj = currProjList.closest('.project')
