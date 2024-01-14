@@ -45,6 +45,36 @@ const tasks = (function () {
         input.value = val
     }
 
+    // Deleting task from local storage if deleted from project.
+    function delTaskFromProj(taskName, task) {
+        // Trasversing back from the title to the project to reach the project's name.
+        let project = taskName.closest('.project')
+        // Traversing back to the task from title.
+        task = taskName.closest('.task')
+
+        // Project name to be compared to the key in local storage
+        let projectName = project.querySelector('.proj-name').innerHTML
+
+        let taskNameInnerHTML = taskName.innerHTML
+
+        // Getting the required key from local stroage.
+        let key = localStorage.getItem(projectName);
+
+        // Parsing it.
+        let arrOfObjects = JSON.parse(key)
+
+        // Object to removed from the array of objects
+        let objToRemove = {title: taskNameInnerHTML}
+
+        // Use the filter method to create a new array without the specified object
+        let newArray = arrOfObjects.filter(obj => obj.title !== objToRemove.title);
+
+        // Updating local storage with the new array.
+        localStorage.setItem(projectName, JSON.stringify(newArray));
+
+        console.log(newArray);
+    }
+
     // Deleting task from local stroage if deleted from quick task manager.
     function delTaskFromQT(title) {
         // Retrieve the local storage data
@@ -86,7 +116,7 @@ const tasks = (function () {
                 delTaskFromQT(prevTitle.innerHTML)
             } else {
                 // Del task from proj.
-
+                delTaskFromProj(prevTitle, task)
             }
             task.remove()
         }
@@ -256,9 +286,17 @@ const tasks = (function () {
             } 
         }
         else if (e.target.className == 'proj-task-submit-btn') {
-
             const currProj = currProjList.closest('.project')
-            const currProjName = currProj.querySelector('h2').textContent
+            const currProjName = currProj.querySelector('.proj-name').innerHTML
+            const taskNames = currProjList.querySelectorAll('.task-name')
+
+            for(let i = 0; i < taskNames.length; i++) 
+            {
+                if(taskNames[i].innerHTML == projTaskTitle) {
+                    alert('Sorry this task title already exists, Add another unique title.')
+                    return
+                }
+            }
 
             let newProjTask = new task(
                 projTaskTitle,

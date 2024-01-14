@@ -91,6 +91,7 @@ const projects = (function () {
             // project heading and add task btn.
             const projHeading = document.createElement('h2')
             projHeading.innerHTML = projName
+            projHeading.className = 'proj-name'
 
             // Button add task to pojrect
             const addTaskToProjBtn = document.createElement('button')
